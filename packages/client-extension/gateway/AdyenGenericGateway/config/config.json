@@ -2,7 +2,7 @@
   "configType": "payment",
   "titleResourceId": "title",
   "descriptionResourceId": "description",
-  "instances" : [
+  "instances": [
     {
       "id": "agent",
       "instanceName": "agent",
@@ -59,6 +59,15 @@
       "defaultValue": "merchantPasscode",
       "required": true,
       "public": false
+    },
+    {
+      "id": "originDomain",
+      "type": "stringType",
+      "labelResourceId": "originDomainLabel",
+      "helpTextResourceId": "originDomainHelpText",
+      "defaultValue": "",
+      "required": false,
+      "public": true
     },
     {
       "id": "storedPayment",

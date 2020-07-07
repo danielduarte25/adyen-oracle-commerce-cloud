@@ -37,11 +37,12 @@ class Component {
         )
     }
 
-    getOriginKeysSuccessResponse = originKeysRes => {
+    getOriginKeysSuccessResponse = (originKeysRes) => {
+        const originDomain = store.get(constants.originDomain)
         const { origin } = window.location
         eventEmitter.store.emit(
             constants.originKey,
-            originKeysRes.originKeys[origin]
+            originKeysRes.originKeys[originDomain || origin]
         )
         store.get(constants.ajax)('paymentMethods', this.getPaymentMethods)
     }
@@ -53,7 +54,7 @@ class Component {
         )
     }
 
-    getPaymentMethods = paymentMethodsResponse => {
+    getPaymentMethods = (paymentMethodsResponse) => {
         eventEmitter.store.emit(
             constants.paymentMethodsResponse,
             paymentMethodsResponse
