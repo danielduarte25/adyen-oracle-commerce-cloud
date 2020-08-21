@@ -30,7 +30,7 @@ describe('Component', () => {
         widget = new Widget()
     })
 
-    it('should fetch origin key, payment methods and adyen checkout script', async done => {
+    it('should fetch payment methods', () => {
         widget.locale = jest.fn(() => 'pt_BR')
         widget.cart = jest.fn(() => ({
             currencyCode: jest.fn(() => 'BRL'),
@@ -39,23 +39,12 @@ describe('Component', () => {
         const component = new Component()
 
         const scope = nock('http://localhost/ccstorex/custom/adyen/v1')
-            .get('/originKeys')
-            .reply(200, mocks.originKeys)
             .get('/paymentMethods')
             .reply(200, mocks.paymentMethods)
 
-        const getScriptCb = () => {
-            const paymentMethods = store.get(constants.paymentMethodsResponse)
-            expect(paymentMethods).toEqual(paymentMethods)
-            expect(scope.isDone()).toBeTruthy()
-            done()
-        }
-
-        nock('https://checkoutshopper-live.adyen.com')
-            .get('/checkoutshopper/sdk/3.3.0/adyen.js')
-            .reply(200, getScriptCb)
-
         component.render()
+
+        expect(scope.isDone()).toBeTruthy()
     })
 
     it('should have comboCard options when card is debit', () => {

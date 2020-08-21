@@ -15,7 +15,7 @@ class ViewModel {
         boletoDeliveryDate,
         boletoShopperStatement,
         paymentMethodTypes,
-        originDomain,
+        clientKey,
         holderNameEnabled,
     }) => {
         eventEmitter.store.emit(constants.environment, environment)
@@ -23,7 +23,7 @@ class ViewModel {
         store.get(constants.isAllowedCountryForInstallments) &&
             this.setInstallments(installmentsOptionsId)
         eventEmitter.store.emit(constants.storedPaymentType, storedPayment)
-        eventEmitter.store.emit(constants.originDomain, originDomain)
+        eventEmitter.store.emit(constants.clientKey, clientKey)
         eventEmitter.store.emit(constants.holderNameEnabled, holderNameEnabled)
 
         setBoletoConfig({

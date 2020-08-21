@@ -61,12 +61,12 @@
             "public": false
         },
         {
-            "id": "originDomain",
+            "id": "clientKey",
             "type": "stringType",
-            "labelResourceId": "originDomainLabel",
-            "helpTextResourceId": "originDomainHelpText",
-            "defaultValue": "",
-            "required": false,
+            "labelResourceId": "clientKeyLabel",
+            "helpTextResourceId": "clientKeyHelpText",
+            "defaultValue": "test_GENERATED-CLIENT-KEY",
+            "required": true,
             "public": true
         },
         {

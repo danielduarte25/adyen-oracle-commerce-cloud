@@ -1,3 +1,6 @@
+jest.mock("@adyen/adyen-web");
+
+import AdyenCheckout from "@adyen/adyen-web"
 import { store } from '../components'
 import * as constants from '../constants'
 import Widget from '../../../../__mocks__/widget'
@@ -9,7 +12,7 @@ import { eventEmitter } from '../utils'
 const defaultConfig = {
     environment: 'test',
     locale: 'en_US',
-    originKey: '',
+    clientKey: undefined,
     paymentMethodsResponse: undefined,
     showPayButton: true,
 }
@@ -20,13 +23,13 @@ describe('Checkout', () => {
         widget = new Widget()
     })
 
-    it('should return default config', function() {
+    it('should return default config', function () {
         viewModel.onLoad(widget)
         const result = getDefaultConfig()
         expect(result).toEqual(defaultConfig)
     })
 
-    it('should create from action', function() {
+    it('should create from action', function () {
         viewModel.onLoad(widget)
         const mount = jest.fn()
         const createFromActionMock = jest.fn(() => ({ mount }))
@@ -41,28 +44,29 @@ describe('Checkout', () => {
         expect(mount).toHaveBeenCalledWith(args.selector)
     })
 
-    it('should create checkout', function() {
+    it('should create checkout', function () {
+        const mount = jest.fn()
+        const create = jest.fn(() => ({ mount }))
+        AdyenCheckout.mockImplementation(() => ({ create }))
         const defaultConfig = getDefaultConfig()
         const configuration = { data: 'mocked_extra_config' }
         const cb = jest.fn()
-        const mount = jest.fn()
-        const create = jest.fn(() => ({ mount }))
-        global.AdyenCheckout = jest.fn(() => ({ create }))
         const checkout = new Checkout(constants.paymentMethodTypes.generic)
+        document.body.innerHTML = `<div id="id"></div>`
         const selector = '#id'
-        const type = 'boleto'
+        const type = 'scheme'
         checkout.createCheckout({ configuration, type, selector }, cb)
 
         expect(create).toHaveBeenCalledWith(type, {})
         expect(mount).toHaveBeenCalledWith(selector)
-        expect(global.AdyenCheckout).toHaveBeenCalledWith({
+        expect(AdyenCheckout).toHaveBeenCalledWith({
             ...defaultConfig,
             ...configuration,
         })
         expect(cb).toHaveBeenCalled()
     })
 
-    it('should handle on submit', function() {
+    it('should handle on submit', function () {
         eventEmitter.store.emit(constants.paymentDetails, {})
         const checkout = new Checkout(constants.paymentMethodTypes.generic)
         const createOnSubmit = checkout.onSubmit()
@@ -74,7 +78,7 @@ describe('Checkout', () => {
         expect(order().handlePlaceOrder).toHaveBeenCalled()
     })
 
-    it('should handle on change', function() {
+    it('should handle on change', function () {
         eventEmitter.store.emit(constants.paymentDetails, {})
         const checkout = new Checkout(constants.paymentMethodTypes.generic)
         const createOnSubmit = checkout.onChange()
