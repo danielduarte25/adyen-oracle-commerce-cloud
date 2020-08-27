@@ -1,4 +1,6 @@
 import ccConstants from 'ccConstants'
+import AdyenCheckout from '@adyen/adyen-web'
+import '@adyen/adyen-web/dist/adyen.css'
 import { store } from '../components'
 import * as constants from '../constants'
 import { eventEmitter } from './index'
@@ -6,14 +8,14 @@ import { eventEmitter } from './index'
 export const getDefaultConfig = () => {
     const environment = store.get(constants.environment)
     const locale = store.get(constants.locale)
-    const originKey = store.get(constants.originKey)
+    const clientKey = store.get(constants.clientKey)
     const paymentMethodsResponse = store.get(constants.paymentMethodsResponse)
 
     return {
         showPayButton: true,
         locale,
         environment: environment.toLowerCase(),
-        originKey,
+        clientKey,
         paymentMethodsResponse,
     }
 }
@@ -37,7 +39,7 @@ class Checkout {
         cb(checkout)
     }
 
-    onSubmit = options => (state, component) => {
+    onSubmit = (/* options */) => (/*state, component */) => {
         const order = store.get(constants.order)
         eventEmitter.payment.emit(constants.setPayment, this.type)
 

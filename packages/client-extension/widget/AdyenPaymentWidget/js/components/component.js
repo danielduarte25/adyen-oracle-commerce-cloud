@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import * as constants from '../constants'
 import { eventEmitter } from '../utils'
 import { createBoletoCheckout, createCardCheckout, store } from './index'
@@ -37,33 +36,18 @@ class Component {
         )
     }
 
-    getOriginKeysSuccessResponse = (originKeysRes) => {
-        const originDomain = store.get(constants.originDomain)
-        const { origin } = window.location
-        eventEmitter.store.emit(
-            constants.originKey,
-            originKeysRes.originKeys[originDomain || origin]
-        )
+    render = () => {
         store.get(constants.ajax)('paymentMethods', this.getPaymentMethods)
     }
 
-    render = () => {
-        store.get(constants.ajax)(
-            'originKeys',
-            this.getOriginKeysSuccessResponse
-        )
-    }
-
-    getPaymentMethods = (paymentMethodsResponse) => {
+    getPaymentMethods = paymentMethodsResponse => {
         eventEmitter.store.emit(
             constants.paymentMethodsResponse,
             paymentMethodsResponse
         )
 
-        $.getScript(constants.adyenCheckoutComponentUrl, () => {
-            createCardCheckout()
-            store.get(constants.brazilEnabled) && createBoletoCheckout()
-        })
+        createCardCheckout()
+        store.get(constants.brazilEnabled) && createBoletoCheckout()
     }
 }
 

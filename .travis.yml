@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-  - "8"
-  - stable
+    - '10'
+    - stable
 cache: yarn
 script:
-  - yarn run test
+    - yarn run test
 jobs:
-  include:
-    - stage: Produce Coverage
-      node_js: stable
-      script: jest --collectCoverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+    include:
+        - stage: Produce Coverage
+          node_js: stable
+          script: jest --collectCoverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage

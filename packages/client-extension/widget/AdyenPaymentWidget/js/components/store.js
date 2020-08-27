@@ -57,7 +57,6 @@ class Store {
         this.checkout = undefined
         this.holderNameEnabled = false
         this.originDomain = ''
-        this.originKey = ''
         this.isValid = false
         this.selectedBrand = undefined
         this.creditCard = comboCards.credit
