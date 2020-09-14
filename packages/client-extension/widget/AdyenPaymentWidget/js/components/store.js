@@ -42,7 +42,7 @@ class Store {
         this.id = viewModel.id
         this.order = viewModel.order
         this.cart = viewModel.cart
-        this.ajax = ajax(viewModel.isPreview())
+        this.ajax = ajax(viewModel.isPreview(), viewModel.site().siteInfo.id)
         this.translate = viewModel.translate
         this.locale = viewModel.locale()
         this.brazilEnabled = false
