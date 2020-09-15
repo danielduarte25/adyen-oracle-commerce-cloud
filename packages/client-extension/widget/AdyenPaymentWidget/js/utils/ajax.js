@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { baseAPIUrl, channels } from '../constants'
 
-export default (isPreview = true, siteId) => {
+export default (siteId, isPreview = true) => {
     return (path, cb, method = 'get') => {
         $.ajax({
             url: `${baseAPIUrl}/${path}`,
